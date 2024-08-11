@@ -1,0 +1,28 @@
+/* General styles for the body */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Container to align images */
+.image-container {
+    display: flex;
+    justify-content: space-between; /* Adjusts spacing between images */
+    flex-wrap: wrap; /* Allows wrapping on smaller screens */
+}
+
+/* Styles for the images */
+.responsive-image {
+    flex: 1; /* Makes the images flexible */
+    margin: 0 5px; /* Adds space between images */
+    max-width: 100%; /* Ensures images are responsive */
+    height: auto; /* Keeps aspect ratio */
+    object-fit: cover; /* Adjusts image fit */
+}
+
+/* Optional: Add some responsiveness for very small screens */
+@media (max-width: 600px) {
+    .responsive-image {
+        margin: 0; /* Adjust spacing for smaller screens */
+    }
+}
