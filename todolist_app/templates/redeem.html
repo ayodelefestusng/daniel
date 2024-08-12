@@ -40,15 +40,15 @@
  {% endfor %}
 
  <div class="container mt-5"> 
-  <h3>Redeem Code</h3>
+  <h6>  Redeem Your Voucher </h6>
   <div class="col-4">
   <form class="form-inline" action="{% url 'redeem'  %}"  method ='POST'>
     {% csrf_token %}
    
-      <input type="text" name="agoba" id="code" class="form-control" placeholder="Input the Code">
+      <input type="text" name="agoba" id="code" class="form-control" placeholder="Input Your Voucher Code">
 
         </div>
-        <button type="submit" class="btn btn-primary">Redeem</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
   </div>
 
@@ -56,6 +56,7 @@
                   
 </div>
 <div class="container mt-5">
+
   <table class="table">
     <thead class="table-dark">
       <tr>
@@ -69,7 +70,7 @@
        {% for i in Alex  %}
        {% if i.status == False %}
        <tr>
-        <td>{{i.id}}</td>
+        <td>{{forloop.counter}}</td>
         <td>{{i.code}}</td>
         <td>{{i.gift}}</td>
         <td>Already Redeemed</td>
@@ -83,14 +84,13 @@
    
 
           <th scope="col"></th>
-          <th scope="col">Total</th>
-          <th scope="col">{{Alex1}}</th>
+          <th scope="col" class="h6 "style="color: #000066" >Total Point Accumulated</th>
+          <th scope="col">{{Alex|length}}</th>
           <th scope="col"></th>
           
           
         </tbody>
-        
-    
+       
 </table>
 
 </div>
@@ -105,7 +105,7 @@
 
 
 
-{% for i in Alex1 %}
+<!-- {% for i in Alex1 %}
 {{i.gift}}
 yam tubjdjdjdj
 {% endfor %}
@@ -121,7 +121,7 @@ Yeemmooo
 
 
 <body>
- 
+  -->
 
 </body>
 </html>

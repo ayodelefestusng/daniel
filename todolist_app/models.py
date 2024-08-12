@@ -1,9 +1,9 @@
 from django.db import models
 
 class PromoCode(models.Model):
-    code = models.CharField(max_length=11)
-    gift = models.IntegerField(default=0, null=False, blank=False)
-    status = models.BooleanField(default=True)
+    code = models.CharField(max_length=11, unique=True)
+    gift = models.IntegerField(default=1, null=False, blank=False)
+    status = models.BooleanField(default=False)
     
     def __str__(self):
         return str(self.code)

@@ -80,10 +80,14 @@ def register(request):
 def load(request):
      if request.method =="POST":
         register_form = panko(request.POST or None)
+       
         if register_form.is_valid():
             register_form.save()
             messages.success(request,("Vocuher Loaded Succesfully "))
             return redirect('load')
+        else:
+            messages.info(request,("Invalid:Voucher code must be 11 digits and unique  "))
+            return redirect('load' )
     
      else:
         register_form = panko
@@ -104,10 +108,11 @@ def create_gift(request):
     
      else:
         register_form = CreateeGifts
-        context ={"Title": 'Index',"Naija": 'Welcome To about',"register_form":register_form} 
+        ajero =CreateGift.objects.all()
+        context ={"Title": 'Index',"Naija": 'Welcome To about',"register_form":register_form,"ajero":ajero} 
         return render(request, "load.html", context)
     
-    
+ 
 # def winnings(request):
 #     return render(request, "contact.html")
 from django.contrib.auth import logout
@@ -131,10 +136,10 @@ def winnings(request):
         messages.success(request,("Winning Codes Generarated "))
         return render(request, "load.html")   
     
-    #  else:
-    #     register_form = CreateeGifts
-    #     context ={"Title": 'Index',"Naija": 'Welcome To about',"register_form":register_form} 
-    #     return render(request, "load.html", context)   
+     else:
+        register_form = CreateeGifts
+        context ={"Title": 'Index',"Naija": 'Welcome To about',"register_form":register_form} 
+        return render(request, "load.html", context)   
     
 
     
@@ -160,21 +165,73 @@ def redeems (request):
         return render(request, "redeem.html", context)
     
     
+# def redeem (request):
+#     # Alex=Ajero(request.POST)
+#     if request.method =="POST":
+#         Alex1=PromoCode.objects.filter(code=request.POST["agoba"])
+#         task=PromoCode.objects.get(code=request.POST["agoba"])
+#         task.status=False
+#         task.save()
+#         Alex=PromoCode.objects.all()
+#         context ={'Alex':Alex,'Alex1':Alex1}
+#         return render(request, "redeem.html", context)
+#     else:
+    
+#         Alex=PromoCode.objects.all()
+#         context ={'Alex':Alex}
+#         return render(request, "redeem.html", context)   
+    
+    
+    
+    
 def redeem (request):
     # Alex=Ajero(request.POST)
+    
     if request.method =="POST":
-        Alex1=PromoCode.objects.filter(code=request.POST["agoba"])
-        task=PromoCode.objects.get(code=request.POST["agoba"])
-        task.status=False
-        task.save()
-        Alex=PromoCode.objects.all()
-        context ={'Alex':Alex,'Alex1':Alex1}
-        return render(request, "redeem.html", context)
+        
+        try:
+            task=PromoCode.objects.get(code=request.POST["agoba"])
+            if task.status:
+                messages.info(request,("Already redeemed"))
+                Alex=PromoCode.objects.all()
+                context ={'Alex':Alex}
+                return render(request, "redeem.html",context)       
+            else:
+              task.status=True
+              task.save()
+              messages.success(request,("Successful"))
+              Alex=PromoCode.objects.all()
+              context ={'Alex':Alex}
+              return render(request, "redeem.html",context)     
+        except PromoCode.DoesNotExist:
+            messages.info(request,("Promo Code Invalid "))
+            Alex=PromoCode.objects.all()
+            return render(request, "redeem.html")  
     else:
     
         Alex=PromoCode.objects.all()
         context ={'Alex':Alex}
         return render(request, "redeem.html", context)   
+            
+            
+   
+    
+    
+def lookup_voucher_code(request):
+    if request.method == 'POST':
+        code = request.POST.get('code')
+        try:
+            voucher = VoucherCode.objects.get(code=code)
+            if voucher.redeemed:
+                return render(request, 'voucher_result.html', {'message': 'Already redeemed'})
+            else:
+                voucher.redeemed = True
+                voucher.save()
+                return render(request, 'voucher_result.html', {'message': 'Successful'})
+        except VoucherCode.DoesNotExist:
+            return render(request, 'voucher_result.html', {'message': 'Invalid code'})
+    return render(request, 'lookup_voucher.html')
+
     
     
     
@@ -202,7 +259,17 @@ def value_lookup(request):
                 return render(request, 'lookup.html', context)
     else:
         form = ValueLookupForm()
-    return render(request, 'lookup.html', {'form': form})
+        Alex=PromoCode.objects.all()
+        context ={'Alex':Alex,'form': form}
+         
+        return render(request, 'lookup.html', context)
+
+
+        
+        
+       
+        return render(request, "redeem.html", context)
+    
 
 
 

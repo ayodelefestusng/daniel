@@ -24,7 +24,7 @@
 
 
             {% if id %}
-                <p>ID: {{ id }}</p>
+                <p>ID: Promo code {{ id }} has been redeemed successfuly </p>
             {% else %}
                 <p>{{ error }}</p>
             {% endif %}
@@ -38,7 +38,66 @@
 
         </div>
 
-                        
+                  
+        
+        <table class="table">
+            <thead class="table-dark">
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Code Redeem</th>
+                <th scope="col">Value</th>
+                <th scope="col">Status</th>
+                
+                <tbody>
+        
+               {% for i in Alex  %}
+               {% if i.status == False %}
+               <tr>
+                <td>{{i.id}}</td>
+                <td>{{i.code}}</td>
+                <td>{{i.gift}}</td>
+                <td>Already Redeemed</td>
+                
+              </tr>
+               {% endif %}
+                
+               
+        
+                  {% endfor %}
+           
+        
+                  <th scope="col"></th>
+                  <th scope="col">Total</th>
+                  <th scope="col">{{Alex1}}</th>
+                  <th scope="col"></th>
+                  
+                  
+                </tbody>
+                
+            
+        </table>
+        
+
+
+
+        {% for i in Alex1 %}
+        {{i.gift}}
+        yam tubjdjdjdj
+        {% endfor %}
+        
+        
+        <br>
+        <br>
+        <br>
+        {{Alex}}
+        
+        Yeemmooo
+
+
+
+
+
+        
 </div>
 {% endblock content %}
 
